@@ -88,3 +88,9 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 
 Você pode acessar mais informações sobre o sistema através deste [link](https://claude.site/artifacts/4f2d5d44-33d9-437e-aa7c-8d0e0b9bcbbf).
 
+## Imagem do Sistema
+
+Aqui está uma imagem compacta do sistema:
+
+![Imagem do Sistema](https://github.com/dheiver2/vita.ai-LandingPage/blob/main/screenshot%20(1).jpeg)
+
