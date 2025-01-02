@@ -1,20 +1,38 @@
 import React, { useState } from 'react';
-import { Brain, Zap, ShieldCheck, ArrowRight, Play, CheckCircle, Menu, X } from 'lucide-react';
+import { Brain, Zap, ShieldCheck, ArrowRight, Play, CheckCircle, Menu, X, Activity, HeartPulse } from 'lucide-react';
+
+const Logo = () => (
+  <div className="flex items-center gap-2">
+    <div className="relative">
+      <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl">
+        <HeartPulse className="w-6 h-6 text-white absolute" />
+        <Activity className="w-6 h-6 text-white/30 absolute animate-pulse" />
+      </div>
+      <div className="absolute -right-1 -bottom-1 text-[8px] px-1 rounded-md bg-cyan-500 text-white font-bold">
+        AI
+      </div>
+    </div>
+    <div className="flex items-baseline">
+      <span className="text-xl font-bold text-white">vita</span>
+      <span className="text-sm font-medium text-cyan-400">.ai</span>
+    </div>
+  </div>
+);
 
 const Badge = ({ icon: Icon, children }) => (
-  <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+  <div className="inline-flex items-center gap-2 px-3 md:px-4 py-2 bg-white/5 rounded-full border border-white/10">
     {Icon && <Icon className="w-4 h-4 text-cyan-400" />}
-    <span className="text-sm text-white/70">{children}</span>
+    <span className="text-xs md:text-sm text-white/70">{children}</span>
   </div>
 );
 
 const Button = ({ children, variant = 'primary', icon: Icon, className = '' }) => {
   const styles = variant === 'primary' 
-    ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90"
+    ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:opacity-90"
     : "border border-white/10 text-white/70 hover:bg-white/5";
   
   return (
-    <button className={`px-4 md:px-6 py-3 rounded-full flex items-center gap-2 transition-all ${styles} ${className}`}>
+    <button className={`w-full md:w-auto px-4 md:px-6 py-3 rounded-xl flex items-center justify-center gap-2 transition-all ${styles} ${className}`}>
       {Icon && <Icon className="w-5 h-5" />}
       {children}
     </button>
@@ -22,9 +40,9 @@ const Button = ({ children, variant = 'primary', icon: Icon, className = '' }) =
 };
 
 const Card = ({ icon: Icon, title, description, items = [] }) => (
-  <div className="p-4 md:p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all">
-    <div className="flex items-center gap-3 mb-4">
-      <div className="p-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl">
+  <div className="p-4 md:p-6 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all">
+    <div className="flex items-start md:items-center gap-3 mb-4">
+      <div className="p-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-lg shrink-0">
         <Icon className="w-6 h-6 text-cyan-400" />
       </div>
       <div>
@@ -47,22 +65,22 @@ const Card = ({ icon: Icon, title, description, items = [] }) => (
 
 const features = [
   {
-    icon: Zap,
-    title: "Emissão Automática",
-    description: "Notas fiscais em segundos",
-    items: ["Integração hospitalar", "Multi-convênios", "Relatórios"]
-  },
-  {
     icon: Brain,
     title: "Diagnóstico IA",
-    description: "Análise avançada de imagens",
-    items: ["98% precisão", "Suporte 24/7", "Detecção precoce"]
+    description: "Análise inteligente de exames",
+    items: ["98% precisão", "Detecção precoce", "Suporte 24/7"]
+  },
+  {
+    icon: HeartPulse,
+    title: "Monitoramento",
+    description: "Acompanhamento em tempo real",
+    items: ["Alertas inteligentes", "Dados vitais", "Histórico completo"]
   },
   {
     icon: ShieldCheck,
     title: "Segurança Total",
-    description: "Proteção LGPD",
-    items: ["Criptografia", "Backup", "Auditoria"]
+    description: "Proteção de dados LGPD",
+    items: ["Criptografia", "Backups", "Auditoria"]
   }
 ];
 
@@ -75,12 +93,8 @@ const Preview = () => {
       <header className="fixed top-0 left-0 right-0 bg-slate-950/80 backdrop-blur-sm z-50 border-b border-white/10">
         <nav className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Brain className="w-8 h-8 text-cyan-400" />
-              <span className="text-xl font-bold text-white">MedSys</span>
-            </div>
+            <Logo />
             
-            {/* Mobile Menu Button */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 text-white/70 hover:text-white"
@@ -88,23 +102,21 @@ const Preview = () => {
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
             
-            {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
-              <a href="#" className="text-white/70 hover:text-white">Recursos</a>
-              <a href="#" className="text-white/70 hover:text-white">Preços</a>
-              <a href="#" className="text-white/70 hover:text-white">Contato</a>
-              <Button variant="primary">Área Médica</Button>
+              <a href="#solucoes" className="text-white/70 hover:text-white">Soluções</a>
+              <a href="#especialidades" className="text-white/70 hover:text-white">Especialidades</a>
+              <a href="#contato" className="text-white/70 hover:text-white">Contato</a>
+              <Button variant="primary">Portal Médico</Button>
             </div>
           </div>
           
-          {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden mt-4 pb-4">
+            <div className="md:hidden mt-4 pb-4 border-t border-white/10 pt-4">
               <div className="flex flex-col gap-4">
-                <a href="#" className="text-white/70 hover:text-white">Recursos</a>
-                <a href="#" className="text-white/70 hover:text-white">Preços</a>
-                <a href="#" className="text-white/70 hover:text-white">Contato</a>
-                <Button variant="primary" className="w-full justify-center">Área Médica</Button>
+                <a href="#solucoes" className="text-white/70 hover:text-white py-2">Soluções</a>
+                <a href="#especialidades" className="text-white/70 hover:text-white py-2">Especialidades</a>
+                <a href="#contato" className="text-white/70 hover:text-white py-2">Contato</a>
+                <Button variant="primary">Portal Médico</Button>
               </div>
             </div>
           )}
@@ -114,27 +126,27 @@ const Preview = () => {
       <main className="relative pt-32 pb-20">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500 opacity-20 blur-[120px] animate-pulse" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 opacity-20 blur-[120px] animate-pulse delay-1000" />
+          <div className="absolute top-1/4 left-1/4 w-64 md:w-96 h-64 md:h-96 bg-cyan-500 opacity-20 blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-64 md:w-96 h-64 md:h-96 bg-blue-500 opacity-20 blur-[120px] animate-pulse delay-1000" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4">
           {/* Hero Section */}
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <Badge icon={Zap}>Sistema Premiado</Badge>
-            <h1 className="text-4xl md:text-6xl font-bold text-white mt-6 mb-6">
-              Notas Fiscais e 
+            <Badge icon={Brain}>IA para Saúde</Badge>
+            <h1 className="text-3xl md:text-6xl font-bold text-white mt-6 mb-6">
+              Transforme seus
               <span className="block md:inline bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                {" "}Diagnóstico IA
+                {" "}Diagnósticos
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-white/70 mb-8">
-              Sistema completo para cirurgiões: automatize suas notas fiscais e
-              economize <span className="text-cyan-400">5h por semana</span> em burocracia.
+            <p className="text-base md:text-xl text-white/70 mb-8 px-4 md:px-0">
+              Inteligência artificial para diagnósticos mais precisos e{" "}
+              <span className="text-cyan-400">90% mais rápidos</span>
             </p>
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-              <Button icon={Play}>Ver Demo</Button>
-              <Button variant="secondary">Começar Agora</Button>
+            <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-4">
+              <Button icon={Play}>Ver Demonstração</Button>
+              <Button variant="secondary">Agendar Conversa</Button>
             </div>
           </div>
 
@@ -148,25 +160,25 @@ const Preview = () => {
       </main>
 
       {/* Dashboard Preview */}
-      <section className="py-20 bg-white/5">
+      <section className="py-16 md:py-20 bg-white/5">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div>
-              <h3 className="text-lg font-semibold text-white">Dashboard</h3>
-              <p className="text-sm text-white/50">Sistema Integrado</p>
+              <h3 className="text-lg font-semibold text-white">Painel Inteligente</h3>
+              <p className="text-sm text-white/50">Análise em Tempo Real</p>
             </div>
-            <Button variant="primary">+ Nova Nota</Button>
+            <Button variant="primary">Novo Diagnóstico</Button>
           </div>
           
           <div className="bg-white/5 rounded-xl border border-white/10 p-4 md:p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                { label: "Notas Emitidas", value: "1.234" },
-                { label: "Valor Total", value: "R$ 123.456" },
-                { label: "Tempo Médio", value: "45s" }
+                { label: "Diagnósticos", value: "12.453" },
+                { label: "Precisão Média", value: "98.5%" },
+                { label: "Tempo Médio", value: "2min" }
               ].map((stat, i) => (
                 <div key={i} className="text-center p-4 bg-white/5 rounded-lg">
-                  <div className="text-2xl font-bold text-white">{stat.value}</div>
+                  <div className="text-xl md:text-2xl font-bold text-white">{stat.value}</div>
                   <div className="text-sm text-white/50">{stat.label}</div>
                 </div>
               ))}
