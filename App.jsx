@@ -1,5 +1,5 @@
-import React from 'react';
-import { Brain, Zap, ShieldCheck, ArrowRight, Play, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Brain, Zap, ShieldCheck, ArrowRight, Play, CheckCircle, Menu, X } from 'lucide-react';
 
 const Badge = ({ icon: Icon, children }) => (
   <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
@@ -8,13 +8,13 @@ const Badge = ({ icon: Icon, children }) => (
   </div>
 );
 
-const Button = ({ children, variant = 'primary', icon: Icon }) => {
+const Button = ({ children, variant = 'primary', icon: Icon, className = '' }) => {
   const styles = variant === 'primary' 
     ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90"
     : "border border-white/10 text-white/70 hover:bg-white/5";
   
   return (
-    <button className={`px-6 py-3 rounded-full flex items-center gap-2 transition-all ${styles}`}>
+    <button className={`px-4 md:px-6 py-3 rounded-full flex items-center gap-2 transition-all ${styles} ${className}`}>
       {Icon && <Icon className="w-5 h-5" />}
       {children}
     </button>
@@ -22,7 +22,7 @@ const Button = ({ children, variant = 'primary', icon: Icon }) => {
 };
 
 const Card = ({ icon: Icon, title, description, items = [] }) => (
-  <div className="p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all">
+  <div className="p-4 md:p-6 bg-white/5 rounded-2xl border border-white/10 hover:border-cyan-500/30 transition-all">
     <div className="flex items-center gap-3 mb-4">
       <div className="p-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-xl">
         <Icon className="w-6 h-6 text-cyan-400" />
@@ -66,66 +66,116 @@ const features = [
   }
 ];
 
-const Preview = () => (
-  <div className="bg-slate-950 min-h-screen">
-    <section className="relative pt-32 pb-20">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500 opacity-20 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 opacity-20 blur-[120px] animate-pulse delay-1000" />
-      </div>
+const Preview = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <Badge icon={Zap}>Sistema Premiado</Badge>
-          <h1 className="text-6xl font-bold text-white mt-6 mb-6">
-            Notas Fiscais e 
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"> Diagnóstico IA</span>
-          </h1>
-          <p className="text-xl text-white/70 mb-8">
-            Sistema completo para cirurgiões: automatize suas notas fiscais e
-            economize <span className="text-cyan-400">5h por semana</span> em burocracia.
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <Button icon={Play}>Ver Demo</Button>
-            <Button variant="secondary">Começar Agora</Button>
+  return (
+    <div className="bg-slate-950 min-h-screen">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 bg-slate-950/80 backdrop-blur-sm z-50 border-b border-white/10">
+        <nav className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Brain className="w-8 h-8 text-cyan-400" />
+              <span className="text-xl font-bold text-white">MedSys</span>
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-white/70 hover:text-white"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+            
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center gap-8">
+              <a href="#" className="text-white/70 hover:text-white">Recursos</a>
+              <a href="#" className="text-white/70 hover:text-white">Preços</a>
+              <a href="#" className="text-white/70 hover:text-white">Contato</a>
+              <Button variant="primary">Área Médica</Button>
+            </div>
           </div>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {features.map((feature, i) => (
-            <Card key={i} {...feature} />
-          ))}
-        </div>
-      </div>
-    </section>
-
-    <section className="py-20 bg-white/5">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h3 className="text-lg font-semibold text-white">Dashboard</h3>
-            <p className="text-sm text-white/50">Sistema Integrado</p>
-          </div>
-          <Button variant="primary">+ Nova Nota</Button>
-        </div>
-        
-        <div className="bg-white/5 rounded-xl border border-white/10 p-6">
-          <div className="grid grid-cols-3 gap-4">
-            {[
-              { label: "Notas Emitidas", value: "1.234" },
-              { label: "Valor Total", value: "R$ 123.456" },
-              { label: "Tempo Médio", value: "45s" }
-            ].map((stat, i) => (
-              <div key={i} className="text-center p-4 bg-white/5 rounded-lg">
-                <div className="text-2xl font-bold text-white">{stat.value}</div>
-                <div className="text-sm text-white/50">{stat.label}</div>
+          
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 pb-4">
+              <div className="flex flex-col gap-4">
+                <a href="#" className="text-white/70 hover:text-white">Recursos</a>
+                <a href="#" className="text-white/70 hover:text-white">Preços</a>
+                <a href="#" className="text-white/70 hover:text-white">Contato</a>
+                <Button variant="primary" className="w-full justify-center">Área Médica</Button>
               </div>
+            </div>
+          )}
+        </nav>
+      </header>
+
+      <main className="relative pt-32 pb-20">
+        {/* Background Effects */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500 opacity-20 blur-[120px] animate-pulse" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500 opacity-20 blur-[120px] animate-pulse delay-1000" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4">
+          {/* Hero Section */}
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <Badge icon={Zap}>Sistema Premiado</Badge>
+            <h1 className="text-4xl md:text-6xl font-bold text-white mt-6 mb-6">
+              Notas Fiscais e 
+              <span className="block md:inline bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                {" "}Diagnóstico IA
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-white/70 mb-8">
+              Sistema completo para cirurgiões: automatize suas notas fiscais e
+              economize <span className="text-cyan-400">5h por semana</span> em burocracia.
+            </p>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+              <Button icon={Play}>Ver Demo</Button>
+              <Button variant="secondary">Começar Agora</Button>
+            </div>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {features.map((feature, i) => (
+              <Card key={i} {...feature} />
             ))}
           </div>
         </div>
-      </div>
-    </section>
-  </div>
-);
+      </main>
+
+      {/* Dashboard Preview */}
+      <section className="py-20 bg-white/5">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <div>
+              <h3 className="text-lg font-semibold text-white">Dashboard</h3>
+              <p className="text-sm text-white/50">Sistema Integrado</p>
+            </div>
+            <Button variant="primary">+ Nova Nota</Button>
+          </div>
+          
+          <div className="bg-white/5 rounded-xl border border-white/10 p-4 md:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {[
+                { label: "Notas Emitidas", value: "1.234" },
+                { label: "Valor Total", value: "R$ 123.456" },
+                { label: "Tempo Médio", value: "45s" }
+              ].map((stat, i) => (
+                <div key={i} className="text-center p-4 bg-white/5 rounded-lg">
+                  <div className="text-2xl font-bold text-white">{stat.value}</div>
+                  <div className="text-sm text-white/50">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
 
 export default Preview;
